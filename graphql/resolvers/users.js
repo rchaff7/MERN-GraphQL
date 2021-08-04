@@ -13,7 +13,7 @@ function generateToken(user){
         username: user.username
     },
     SECRET_KEY,{expiresIn: '1h'}
-    )
+    );
 }
 
 module.exports = {
@@ -22,13 +22,17 @@ module.exports = {
             const { errors, valid } = validateLoginInput(username, password);
             const user = await User.findOne({ username });
 
-            if (!user) {
+            if(!valid){
+                throw new UserInputError('invalid', { errors });
+            }
+
+            if(!user){
                 errors.general = 'User not found';
                 throw new UserInputError('User not found', { errors });
             }
 
             const match = await bcrypt.compare(password, user.password);
-            if (!match){
+            if(!match){
                 errors.general = 'Wrong credentials';
                 throw new UserInputError('Wrong credentials', { errors });
             }
