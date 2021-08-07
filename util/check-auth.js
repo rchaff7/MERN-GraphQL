@@ -16,5 +16,7 @@ module.exports = (context) => {
                 throw new AuthenticationError('Invalid/Expired token')
             }
         }
+        throw new Error('Auth Token must be \'Bearer [token]')
     }
+    throw new Error('Auth header must be provided')
 }
