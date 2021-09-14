@@ -1,9 +1,18 @@
 import React from 'react'
-import { Card, Icon, Label, Image } from 'semantic-ui-react'
+import { Button, Card, Icon, Label, Image } from 'semantic-ui-react'
 import moment from 'moment'
 import { Link } from 'react-router-dom';
 
-function PostCard({ post: { body, createdAt, id, username, likeCount, commentCount, likes }}){
+function PostCard({ post: { body, createdAt, id, username, likeCount, commentCount, likes }
+}){
+
+    function likePost(){
+      console.log('like post')
+    }
+
+    function commentOnPost(){
+      console.log('comment on post')
+    }
     return (
         <Card fluid>
         <Card.Content>
@@ -16,18 +25,26 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
           <Card.Meta as={Link} to={`/posts/&{id}`}>{ moment(createdAt).fromNow(true) }</Card.Meta>
           
           <Card.Description>
-            Molly wants to add you to the group <strong>musicians</strong>
+            {body}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <div className='ui two buttons'>
-            <Button basic color='green'>
-              Approve
+          <Button as='div' labelPosition='right' onClick = {likePost}>
+            <Button color='teal' basic>
+              <Icon name='heart' />
             </Button>
-            <Button basic color='red'>
-              Decline
+            <Label basic color='teal' pointing='left'>
+              {likeCount}
+            </Label>
+          </Button>
+          <Button as='div' labelPosition='right' onClick = {commentOnPost}>
+            <Button color='blue' basic>
+              <Icon name='comments' />
             </Button>
-          </div>
+            <Label basic color='blue' pointing='left'>
+              {commentCount}
+            </Label>
+          </Button>
         </Card.Content>
       </Card>
     )
